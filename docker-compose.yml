@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: scheduling-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    restart: unless-stopped
+    platform: linux/arm64
+
+  redis:
+    image: redis:7-alpine
+    container_name: scheduling-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    platform: linux/arm64
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: scheduling-backend
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      MONGODB_URI: mongodb://admin:admin123@mongodb:27017/scheduling?authSource=admin
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+    depends_on:
+      - mongodb
+      - redis
+    restart: unless-stopped
+    platform: linux/arm64
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: scheduling-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:3001
+    depends_on:
+      - backend
+    restart: unless-stopped
+    platform: linux/arm64
+
+volumes:
+  mongodb_data:
+  redis_data:
