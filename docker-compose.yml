@@ -48,9 +48,7 @@ services:
       dockerfile: Dockerfile
     container_name: scheduling-frontend
     ports:
-      - "3000:3000"
-    environment:
-      VITE_API_URL: http://localhost:3001
+      - "5173:80"
     depends_on:
       - backend
     restart: unless-stopped

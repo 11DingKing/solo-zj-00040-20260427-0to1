@@ -230,12 +230,12 @@ export const authService = {
     const hashedPassword = await hashPassword("admin123");
     await User.create({
       name: "总管理员",
-      phone: "13800138000",
+      phone: "admin",
       password: hashedPassword,
       role: UserRole.ADMIN,
       email: "admin@scheduling.com",
     });
 
-    console.log("默认管理员已创建: 手机 13800138000, 密码 admin123");
+    console.log("默认管理员已创建: 账号 admin, 密码 admin123");
   },
 };

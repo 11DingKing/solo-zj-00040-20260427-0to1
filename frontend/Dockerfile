@@ -10,14 +10,12 @@ COPY . .
 
 RUN npm run build
 
-FROM --platform=linux/arm64 node:20-alpine AS server
+FROM --platform=linux/arm64 nginx:alpine
 
-WORKDIR /app
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-RUN npm install -g serve
+COPY --from=build /app/dist /usr/share/nginx/html
 
-COPY --from=build /app/dist ./dist
+EXPOSE 80
 
-EXPOSE 3000
-
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["nginx", "-g", "daemon off;"]

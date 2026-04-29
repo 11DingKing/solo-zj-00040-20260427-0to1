@@ -63,7 +63,7 @@ const Login: React.FC = () => {
 
   const fillDemoCredentials = () => {
     setFormData({
-      phone: '13800138000',
+      phone: 'admin',
       password: 'admin123',
     });
   };
@@ -85,13 +85,13 @@ const Login: React.FC = () => {
           <div className="form-group">
             <label className="form-label">
               <Users className="w-4 h-4 inline mr-2" />
-              手机号
+              账号
             </label>
             <input
-              type="tel"
+              type="text"
               name="phone"
               className="form-input"
-              placeholder="请输入手机号"
+              placeholder="请输入账号"
               value={formData.phone}
               onChange={handleInputChange}
             />
