@@ -39,12 +39,14 @@ const RoleBasedRoute: React.FC<{
   children: React.ReactNode;
   allowedRoles: UserRole[];
 }> = ({ children, allowedRoles }) => {
-  const { user } = useAuthStore();
+  const { user, setUser } = useAuthStore();
 
   if (!user) {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
+      // 更新 store 中的用户状态
+      setUser(parsedUser as IUser);
       if (allowedRoles.includes(parsedUser.role)) {
         return <>{children}</>;
       }
