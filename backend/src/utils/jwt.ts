@@ -31,7 +31,7 @@ export const generateToken = (payload: IJwtPayload): string => {
     },
     env.jwtSecret,
     {
-      expiresIn: env.jwtExpiresIn,
+      expiresIn: env.jwtExpiresIn as any,
     },
   );
 };

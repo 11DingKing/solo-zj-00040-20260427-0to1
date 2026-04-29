@@ -4,12 +4,11 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm config set registry https://registry.npmmirror.com && \
+    npm install --legacy-peer-deps
 
 COPY . .
 
-RUN npm run build
-
 EXPOSE 3001
 
-CMD ["npm", "start"]
+CMD ["npx", "tsx", "src/index.ts"]
