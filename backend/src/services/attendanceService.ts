@@ -122,7 +122,7 @@ export const attendanceService = {
   ): Promise<{ success: boolean; message: string; attendance?: IAttendance }> {
     const { shiftId, employeeId, actualClockOut } = input;
 
-    const attendance = await Attendance.findOne({
+    let attendance = await Attendance.findOne({
       shiftId: new mongoose.Types.ObjectId(shiftId),
       employeeId: new mongoose.Types.ObjectId(employeeId),
     });

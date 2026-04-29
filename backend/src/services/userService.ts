@@ -158,7 +158,7 @@ export const userService = {
     if (input.employeeProfile) {
       const employeeProfile = user.employeeProfile;
       if (employeeProfile) {
-        const newEmployeeProfile = { ...employeeProfile.toObject() };
+        const newEmployeeProfile = { ...employeeProfile };
 
         if (isAdmin && input.employeeProfile.employmentType) {
           newEmployeeProfile.employmentType =
@@ -251,7 +251,7 @@ export const userService = {
       const managerProfile = user.managerProfile;
       if (managerProfile) {
         updateData["managerProfile"] = {
-          ...managerProfile.toObject(),
+          ...managerProfile,
           storeIds: input.managerProfile.storeIds.map(
             (id) => new mongoose.Types.ObjectId(id),
           ),
