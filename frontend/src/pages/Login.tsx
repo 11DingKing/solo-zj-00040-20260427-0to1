@@ -41,11 +41,19 @@ const Login: React.FC = () => {
       const result = await authApi.login(formData);
       
       if (result.success && result.token && result.user) {
-        login(result.token, result.user as any);
+        // 转换后端返回的用户数据格式，将 id 转换为 _id
+        const userData = {
+          ...result.user,
+          _id: result.user.id,
+          employeeProfile: result.user.employeeProfile || undefined,
+          managerProfile: result.user.managerProfile || undefined,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        login(result.token, userData as IUser);
         addNotification('success', '登录成功！');
         
-        const user = result.user as any;
-        if (user.role === UserRole.EMPLOYEE) {
+        if (userData.role === UserRole.EMPLOYEE) {
           navigate('/my-schedule');
         } else {
           navigate('/dashboard');
